@@ -1,8 +1,10 @@
 import { Container, Nav, Button, Navbar as NavbarBs } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { CartIcon } from "./Icons";
+import { useShoppingCart } from "../context/ShoppingCartContext.tsx";
 
 const Navbar = () => {
+  const { toggleCart, cartQuantity } = useShoppingCart();
   return (
     <NavbarBs sticky="top" className="bg-white shadow-sm mb-3">
       <Container>
@@ -17,30 +19,28 @@ const Navbar = () => {
             About
           </Nav.Link>
         </Nav>
-        <Button
-          style={{
-            width: "3rem",
-            height: "3rem",
-            position: "relative"
-          }}
-          variant="outline-primary"
-          className="rounded-circle"
-        >
-          <CartIcon />
-          <strong
-            className="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
-            style={{
-              position: "absolute",
-              bottom: 0,
-              right: 0,
-              width: "1.5rem",
-              height: "1.5rem",
-              transform: "translate(25%, 25%)"
-            }}
+        {cartQuantity > 0 &&
+          <Button
+            style={{ width: "3rem", height: "3rem", position: "relative" }}
+            variant="outline-primary"
+            className="rounded-circle"
+            onClick={toggleCart}
           >
-            3
-          </strong>
-        </Button>
+            <CartIcon />
+            <strong
+              className="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
+              style={{
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+                width: "1.5rem",
+                height: "1.5rem",
+                transform: "translate(25%, 25%)"
+              }}
+            >
+              {cartQuantity}
+            </strong>
+          </Button>}
       </Container>
     </NavbarBs>
   );
